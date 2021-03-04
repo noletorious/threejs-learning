@@ -1,6 +1,9 @@
 import "./styles.css";
 import * as THREE from "three";
 
+//Create a clock to use so we can use a unit for animating with
+const clock = new THREE.Clock();
+
 //scene
 const scene = new THREE.Scene();
 
@@ -37,11 +40,19 @@ const sizes = {
 
 //camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height);
-camera.position.z = 3;
+camera.position.z = 4;
 scene.add(camera);
 
 //renderer
 const canvas = document.querySelector(".webgl");
 const renderer = new THREE.WebGLRenderer({ canvas: canvas });
 renderer.setSize(sizes.width, sizes.height);
-renderer.render(scene, camera);
+
+const animate = () => {
+  const elapsedTime = clock.getElapsedTime();
+  console.log(elapsedTime);
+  redCube.rotation.y = elapsedTime * Math.PI * 1;
+  renderer.render(scene, camera);
+  window.requestAnimationFrame(animate);
+};
+animate();
