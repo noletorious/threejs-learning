@@ -4,20 +4,36 @@ import * as THREE from "three";
 //scene
 const scene = new THREE.Scene();
 
-//mesh
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+//meshes
+const redCube = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0xff0000 })
+);
+const greenCube = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+);
+const blueCube = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({ color: 0x0000ff })
+);
 
-const sizes = {
-  width: 800,
-  height: 600,
-};
+scene.add(redCube);
+scene.add(greenCube);
+scene.add(blueCube);
+
+greenCube.position.x = -1.5;
+blueCube.position.x = 1.5;
 
 //Axis Helper
 const axesHelper = new THREE.AxesHelper();
 scene.add(axesHelper);
+
+//sizes
+const sizes = {
+  width: 800,
+  height: 600,
+};
 
 //camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height);
