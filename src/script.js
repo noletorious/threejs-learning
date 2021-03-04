@@ -1,5 +1,6 @@
 import "./styles.css";
 import * as THREE from "three";
+import gsap from "gsap";
 
 //Create a clock to use so we can use a unit for animating with
 const clock = new THREE.Clock();
@@ -40,19 +41,30 @@ const sizes = {
 
 //camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height);
-camera.position.z = 4;
-scene.add(camera);
+camera.position.z = 8;
 
 //renderer
 const canvas = document.querySelector(".webgl");
 const renderer = new THREE.WebGLRenderer({ canvas: canvas });
 renderer.setSize(sizes.width, sizes.height);
 
+//gsap to animate
+gsap.to(redCube.rotation, { duration: 5, y: 1 });
+
 const animate = () => {
-  const elapsedTime = clock.getElapsedTime();
-  console.log(elapsedTime);
-  redCube.rotation.y = elapsedTime * Math.PI * 1;
   renderer.render(scene, camera);
   window.requestAnimationFrame(animate);
 };
 animate();
+
+// Very basic way to animate per frame
+// const animate = () => {
+//   const elapsedTime = clock.getElapsedTime();
+//   console.log(elapsedTime);
+//   redCube.rotation.y = elapsedTime * Math.PI * 1;
+//   blueCube.position.z = Math.sin(elapsedTime);
+//   greenCube.position.z = Math.cos(elapsedTime);
+//   renderer.render(scene, camera);
+//   window.requestAnimationFrame(animate);
+// };
+// animate();
