@@ -1,6 +1,7 @@
 import "./styles.css";
 import * as THREE from "three";
 import gsap from "gsap";
+import {MapControls, OrbitControls} from "../node_modules/three/examples/jsm/controls/OrbitControls.js"
 
 //Create a clock to use so we can use a unit for animating with
 const clock = new THREE.Clock();
@@ -48,11 +49,16 @@ const canvas = document.querySelector(".webgl");
 const renderer = new THREE.WebGLRenderer({ canvas: canvas });
 renderer.setSize(sizes.width, sizes.height);
 
+//controls
+const control = new OrbitControls(camera, canvas)
+control.enableDamping = true;
+
 //gsap to animate
-gsap.to(redCube.rotation, { duration: 5, y: 1 });
+gsap.to(redCube.rotation, {  duration:10, y: 5 });
 
 const animate = () => {
   renderer.render(scene, camera);
+  control.update();
   window.requestAnimationFrame(animate);
 };
 animate();
