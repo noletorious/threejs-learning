@@ -1,7 +1,10 @@
 import "./styles.css";
 import * as THREE from "three";
 import gsap from "gsap";
-import {MapControls, OrbitControls} from "../node_modules/three/examples/jsm/controls/OrbitControls.js"
+import {
+  MapControls,
+  OrbitControls,
+} from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
 
 //Create a clock to use so we can use a unit for animating with
 const clock = new THREE.Clock();
@@ -23,22 +26,40 @@ const blueCube = new THREE.Mesh(
   new THREE.MeshBasicMaterial({ color: 0x0000ff })
 );
 
-scene.add(redCube);
-scene.add(greenCube);
-scene.add(blueCube);
+//group the cubes so you can rotate them altogether
+const cubeGroup = new THREE.Group();
+cubeGroup.add(redCube);
+cubeGroup.add(greenCube);
+cubeGroup.add(blueCube);
+
+scene.add(cubeGroup);
 
 greenCube.position.x = -1.5;
 blueCube.position.x = 1.5;
 
-//Axis Helper
+// * Axis Helper
 const axesHelper = new THREE.AxesHelper();
 scene.add(axesHelper);
 
 //sizes
 const sizes = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
+
+//Listen to when the when the viewport changes
+window.addEventListener("resize", () => {
+  //Update sizes
+  const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+  //Update camera
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+  //Update renderer
+  renderer.setSize(sizes.width, sizes.height);
+});
 
 //camera
 const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height);
@@ -50,11 +71,11 @@ const renderer = new THREE.WebGLRenderer({ canvas: canvas });
 renderer.setSize(sizes.width, sizes.height);
 
 //controls
-const control = new OrbitControls(camera, canvas)
+const control = new OrbitControls(camera, canvas);
 control.enableDamping = true;
 
 //gsap to animate
-gsap.to(redCube.rotation, {  duration:10, y: 5 });
+gsap.to(cubeGroup.rotation, { duration: 3, x: 2, repeat: -1 });
 
 const animate = () => {
   renderer.render(scene, camera);
